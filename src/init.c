@@ -48,5 +48,6 @@ void	init_game(t_game *game)
 	mlx_image_to_window(game->mlx, game->texture.background, 0, 0);
 	mlx_image_to_window(game->mlx, game->texture.render, 0, 0);
 	mlx_image_to_window(game->mlx, game->texture.minimap, 0, 0);
+	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
 }
 

@@ -55,11 +55,11 @@ void	move_player(t_game *game)
 		&& !collision_ray(game, game->player.cam + 180 % 360))
 		translate_player(game, game->player.cam + 180 % 360);
 	if (game->player.direction & RIGHT && !(game->player.direction & LEFT)
-		&& !collision_ray(game, game->player.cam + 270 % 360))
-		translate_player(game, game->player.cam + 270 % 360);
-	if (game->player.direction & LEFT && !(game->player.direction & RIGHT)
 		&& !collision_ray(game, game->player.cam + 90 % 360))
 		translate_player(game, game->player.cam + 90 % 360);
+	if (game->player.direction & LEFT && !(game->player.direction & RIGHT)
+		&& !collision_ray(game, game->player.cam + 270 % 360))
+		translate_player(game, game->player.cam + 270 % 360);
 	if (game->player.direction)
 		printf("x:%f, y:%f\n",game->player.x, game->player.y);
 }

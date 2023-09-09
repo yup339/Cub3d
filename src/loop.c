@@ -11,10 +11,10 @@ void	game_loop(void *ptr)
 		(MINIMAP_HEIGHT) * (MINIMAP_WIDTH) * sizeof(int32_t));
 	ft_memset(game->texture.render->pixels, 0,
 		(HEIGHT) * (WIDTH) * sizeof(int32_t));
-	change_rotation(game);
-	move_player(game);
 	raycast(game);
 	draw_minimap(game);
+	change_rotation(game);
+	move_player(game);
 }
 
 void	key_loop2(mlx_key_data_t keydata, t_game *game)

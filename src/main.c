@@ -32,9 +32,22 @@ void	init_map(t_game *game)
 	game->player.y = 1.5;
 }
 
+void	cursor_hook_function(double x, double y, void *ptr)
+{
+	t_game			*game;
+	static double	previous_x = 0;
+
+	game = (t_game *)ptr;
+	(void)y;
+	game->player.cam = fmod((game->player.cam
+				+ ((x - previous_x) * SENSITIVITY) + 360), 360);
+	previous_x = x;
+}
+
 void	run_game(t_game *game)
 {
 	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_cursor_hook(game->mlx, &cursor_hook_function, game);
 	mlx_key_hook(game->mlx, &key_loop, game);
 	mlx_loop(game->mlx);
 }

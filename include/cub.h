@@ -90,6 +90,7 @@ enum e_direction
 # define FOV 90
 # define SPEED 0.05
 # define ROTATION_SPEED 3
+# define SENSITIVITY 0.05
 
 //game core aspext
 void	key_loop(mlx_key_data_t keydata, void *ptr);
