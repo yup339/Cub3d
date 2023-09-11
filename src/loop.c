@@ -13,6 +13,8 @@ void	game_loop(void *ptr)
 		(HEIGHT) * (WIDTH) * sizeof(int32_t));
 	raycast(game);
 	draw_minimap(game);
+	if (game->player.gun)
+		game->player.gun->draw(game);
 	change_rotation(game);
 	move_player(game);
 }

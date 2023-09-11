@@ -29,6 +29,19 @@ static void	create_background(t_game *game, int sky_color, int ground_color)
 	}
 }
 
+void	init_gun(t_game *game)
+{
+	static t_gun gun;
+
+	gun.fire = pistol_fire;
+	gun.draw = pistol_draw;
+	gun.fire_rate = 10;
+	pthread_mutex_init(&gun.m, NULL);
+	game->player.gun = &gun;
+	gun.tex = mlx_load_png("./texture/gun.png");
+	gun.texture = mlx_texture_to_image(game->mlx, gun.tex);
+}
+
 void	init_game(t_game *game)
 {
 	static int	sky_color = (0 << 24 | 255 << 16 | 255 << 8 | 255);
@@ -49,5 +62,6 @@ void	init_game(t_game *game)
 	mlx_image_to_window(game->mlx, game->texture.render, 0, 0);
 	mlx_image_to_window(game->mlx, game->texture.minimap, 0, 0);
 	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
+	init_gun(game);
 }
 

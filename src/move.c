@@ -19,16 +19,17 @@ bool	collision_ray(t_game *game, int	angle)
 	vector.angle = angle;
 	vector.start_x = game->player.x;
 	vector.start_y = game->player.y;
-	vector.end_x = vector.start_x + SPEED * 3 * cos(vector.angle);
-	vector.end_y = vector.start_y - (SPEED * 3 * sin(vector.angle));
+	vector.end_x = vector.start_x + SPEED * cos(vector.angle * M_PI / 180);
+	vector.end_y = vector.start_y + SPEED * sin(vector.angle * M_PI / 180);
 	i = 0;
 	while (game->map[i])
 	{
 		j = 0;
 		while (game->map[i][j])
 		{
-			printf("map :%d,%d = %c\n",j,i,game->map[i][j]);
-			printf("collision :%f,%f\n",vector.end_x,vector.end_y);
+			
+			//printf("map :%d,%d = %c\n",j,i,game->map[i][j]);
+			//printf("collision :%f,%f\n",vector.end_x,vector.end_y);
 			if (game->map[i][j] == '1' && vector_hits_wall(vector.end_x, vector.end_y , j, i))
 			{
 				return (true);
@@ -60,6 +61,6 @@ void	move_player(t_game *game)
 	if (game->player.direction & LEFT && !(game->player.direction & RIGHT)
 		&& !collision_ray(game, game->player.cam + 270 % 360))
 		translate_player(game, game->player.cam + 270 % 360);
-	if (game->player.direction)
-		printf("x:%f, y:%f\n",game->player.x, game->player.y);
+	//if (game->player.direction)
+		//printf("x:%f, y:%f\n",game->player.x, game->player.y);
 }

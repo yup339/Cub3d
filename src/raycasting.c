@@ -5,12 +5,12 @@
 /// width of the game and wich column needed to be rendered
 t_vector	create_ray(t_game *game, int i)
 {
-	t_vector	ray;
+	t_vector	v;
 
-	ray.start_x = game->player.x;
-	ray.start_y = game->player.y;
-	ray.angle = (game->player.cam - (FOV / 2)) + (i * FOV / WIDTH);
-	return (ray);
+	v.start_x = game->player.x;
+	v.start_y = game->player.y;
+	v.angle = (fmod((double)((game->player.cam - (FOV / 2)) + (i * FOV / WIDTH)) + 360, 360));
+	return (v);
 }
 
 void	calculate_wall_height(t_vector *ray, t_game *game,

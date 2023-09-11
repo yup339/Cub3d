@@ -44,9 +44,31 @@ void	cursor_hook_function(double x, double y, void *ptr)
 	previous_x = x;
 }
 
+void	mouse_loop(mouse_key_t button, action_t action, modifier_key_t mods, void *ptr)
+{
+	t_game	*game;
+
+	game = (t_game *)ptr;
+	(void)mods;
+	printf("trying to shoot\n");
+	if (game->player.gun && button == MLX_MOUSE_BUTTON_LEFT && action == MLX_PRESS)
+	{
+		printf("trying to shoot\n");
+		game->player.gun->fire(game);
+	}
+	else if (game->player.gun && button == MLX_MOUSE_BUTTON_LEFT && action == MLX_RELEASE)
+	{
+		pthread_mutex_lock(&game->player.gun->m);
+		game->player.gun->is_firing = false;
+		pthread_mutex_unlock(&game->player.gun->m);
+		pthread_join(game->player.gun->t, NULL);
+	}
+}
+
 void	run_game(t_game *game)
 {
 	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_mouse_hook(game->mlx, mouse_loop, game);
 	mlx_cursor_hook(game->mlx, &cursor_hook_function, game);
 	mlx_key_hook(game->mlx, &key_loop, game);
 	mlx_loop(game->mlx);
