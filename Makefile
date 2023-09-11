@@ -26,6 +26,7 @@ SRCS =	main.c\
 		utils.c \
 		minimap_utils.c \
 		collision.c \
+		gun.c \
 
 SRCS_DIR	=	src
 

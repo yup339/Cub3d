@@ -7,6 +7,7 @@
 # include <math.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/include/libft.h"
+# include <pthread.h>
 
 typedef struct s_vector{
 	double	length;
@@ -17,7 +18,28 @@ typedef struct s_vector{
 	double	start_y;
 	double	dx;
 	double	dy;
+	double	side_x;
+	double	side_y;
+	double	dist_x;
+	double	dist_y;
+	int		side;
+	int		step_x;
+	int		step_y;
 }	t_vector;
+
+typedef struct s_gun
+{
+	pthread_t		t;
+	int				(*fire)(void *);
+	void			(*draw)(void *);
+	int				fire_rate;
+	int				damage;
+	u_int32_t		ammo;
+	bool			is_firing;
+	pthread_mutex_t	m;
+	mlx_texture_t	*tex;
+	mlx_image_t		*texture;
+}	t_gun;
 
 typedef struct s_collision_math{
 	double	x1;
@@ -39,6 +61,7 @@ typedef struct s_player{
 	double	cam;
 	int		rotation;
 	int		direction;
+	t_gun	*gun;
 }	t_player;
 
 typedef struct s_textures{
@@ -72,7 +95,7 @@ enum e_map_color
 };
 # define MINIMAP_HEIGHT 180
 # define MINIMAP_WIDTH 300
-# define NBR_MINIRAY 20
+# define NBR_MINIRAY 80
 
 enum e_direction
 {
@@ -114,5 +137,11 @@ double	angle_to_rad(double angle);
 
 //raycasting
 void	raycast(t_game *game);
+
+
+//gun
+int		pistol_fire(void *ptr);
+void	pistol_draw(void *ptr);
+
 
 #endif
