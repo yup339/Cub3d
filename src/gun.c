@@ -25,15 +25,6 @@ void	*gun_fire(void *ptr)
 	}
 }
 
-void	pistol_draw(void *ptr)
-{
-	t_game	*game;
-	game = (t_game *)ptr;
-	mlx_delete_image(game->mlx, game->player.gun->texture);
-	game->player.gun->texture = mlx_texture_to_image(game->mlx, game->player.gun->tex);
-	mlx_image_to_window(game->mlx, game->player.gun->texture, WIDTH / 2, HEIGHT / 2);
-}
-
 int	pistol_fire(void *ptr)
 {
 	t_game	*game;

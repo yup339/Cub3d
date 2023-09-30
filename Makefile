@@ -22,9 +22,7 @@ SRCS =	main.c\
 		move.c \
 		loop.c \
 		raycasting.c \
-		minimap.c \
 		utils.c \
-		minimap_utils.c \
 		collision.c \
 		gun.c \
 

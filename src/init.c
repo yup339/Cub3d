@@ -34,7 +34,6 @@ void	init_gun(t_game *game)
 	static t_gun gun;
 
 	gun.fire = pistol_fire;
-	gun.draw = pistol_draw;
 	gun.fire_rate = 10;
 	pthread_mutex_init(&gun.m, NULL);
 	game->player.gun = &gun;
@@ -53,8 +52,15 @@ void	init_game(t_game *game)
 		write_error(NULL);
 		exit (0);
 	}
+	game->player.dx = -1;
+	game->player.dy = 0;
+	game->plane_x = 0;
+	game->plane_y = 0.66;
+	game->player.cam = 0;
+	game->player.rotation = 0;
+	game->player.direction = 0;
 	game->texture.background = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	game->texture.render = mlx_new_image(game->mlx, WIDTH, HEIGHT); 
+	game->texture.render = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->texture.minimap
 		= mlx_new_image(game->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 	create_background(game, sky_color, ground_color);
@@ -62,6 +68,5 @@ void	init_game(t_game *game)
 	mlx_image_to_window(game->mlx, game->texture.render, 0, 0);
 	mlx_image_to_window(game->mlx, game->texture.minimap, 0, 0);
 	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
-	init_gun(game);
 }
 

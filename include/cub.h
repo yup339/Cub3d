@@ -9,6 +9,19 @@
 # include "../libft/include/libft.h"
 # include <pthread.h>
 
+typedef struct s_enemie{
+	double			x;
+	double			y;
+	int				hp;
+	pthread_mutex_t	m;
+	pthread_t		t;
+}	t_enemie;
+
+typedef struct s_mini_vec{
+	double	dx;
+	double	dy;
+}	t_mini_vec;
+
 typedef struct s_vector{
 	double	length;
 	double	angle;
@@ -18,10 +31,10 @@ typedef struct s_vector{
 	double	start_y;
 	double	dx;
 	double	dy;
-	double	side_x;
-	double	side_y;
-	double	dist_x;
-	double	dist_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
 	int		side;
 	int		step_x;
 	int		step_y;
@@ -61,6 +74,8 @@ typedef struct s_player{
 	double	cam;
 	int		rotation;
 	int		direction;
+	double	dx;
+	double	dy;
 	t_gun	*gun;
 }	t_player;
 
@@ -71,6 +86,7 @@ typedef struct s_textures{
 	mlx_image_t	*east;
 	mlx_image_t	*background;
 	mlx_image_t	*minimap;
+	mlx_image_t	*corsor;
 	mlx_image_t	*render;
 }	t_textures;
 
@@ -82,6 +98,8 @@ typedef struct s_game{
 	int			height;
 	int			minimap_elsize_x;
 	int			minimap_elsize_y;
+	double		plane_x;
+	double		plane_y;
 	mlx_t		*mlx;
 }	t_game;
 
@@ -96,6 +114,14 @@ enum e_map_color
 # define MINIMAP_HEIGHT 180
 # define MINIMAP_WIDTH 300
 # define NBR_MINIRAY 80
+
+enum e_side
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+};
 
 enum e_direction
 {
@@ -131,6 +157,7 @@ void	change_rotation(t_game *game);
 void	move_player(t_game *game);
 bool	vector_collision(t_game *game, t_vector *vector, double x, double y);
 bool	vector_hits_wall(double x, double y, double map_x, double map_y);
+void	rotate_player_vector(t_game *game, double angle);
 
 //utility function
 double	angle_to_rad(double angle);
@@ -142,6 +169,7 @@ void	raycast(t_game *game);
 //gun
 int		pistol_fire(void *ptr);
 void	pistol_draw(void *ptr);
+void	draw_cursor(t_game *game);
 
 
 #endif

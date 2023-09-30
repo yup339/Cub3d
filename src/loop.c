@@ -12,9 +12,7 @@ void	game_loop(void *ptr)
 	ft_memset(game->texture.render->pixels, 0,
 		(HEIGHT) * (WIDTH) * sizeof(int32_t));
 	raycast(game);
-	draw_minimap(game);
-	if (game->player.gun)
-		game->player.gun->draw(game);
+	//draw_minimap(game);
 	change_rotation(game);
 	move_player(game);
 }
