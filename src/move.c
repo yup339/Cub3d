@@ -76,9 +76,12 @@ void	translate_player(t_game *game, int angle)
 	t_mini_vec	v;
 
 	v = rotate_vector(game->player.dx, game->player.dy, angle);
-	if (game->map[(int)(game->player.y - (v.dy * SPEED))][(int)(game->player.x - (v.dx * SPEED))] != '1')
+	if (game->map[(int)(game->player.x)][(int)(game->player.y - (v.dy * SPEED))] != '1')
 	{
 		game->player.y -= (v.dy * SPEED);
+	}
+	if (game->map[(int)(game->player.x - (v.dx * SPEED))][(int)(game->player.y)] != '1')
+	{
 		game->player.x -= (v.dx * SPEED);
 	}
 }
@@ -86,9 +89,9 @@ void	translate_player(t_game *game, int angle)
 void	move_player(t_game *game)
 {
 	if (game->player.direction & FORWARD && !(game->player.direction & BACKWARD))
-		translate_player(game, 0);
-	if (game->player.direction & BACKWARD && !(game->player.direction & FORWARD))
 		translate_player(game, 180);
+	if (game->player.direction & BACKWARD && !(game->player.direction & FORWARD))
+		translate_player(game, 0);
 	if (game->player.direction & RIGHT && !(game->player.direction & LEFT))
 		translate_player(game, 90);
 	if (game->player.direction & LEFT && !(game->player.direction & RIGHT))

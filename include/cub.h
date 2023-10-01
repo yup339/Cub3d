@@ -80,14 +80,14 @@ typedef struct s_player{
 }	t_player;
 
 typedef struct s_textures{
-	mlx_image_t	*north;
-	mlx_image_t	*south;
-	mlx_image_t	*west;
-	mlx_image_t	*east;
-	mlx_image_t	*background;
-	mlx_image_t	*minimap;
-	mlx_image_t	*corsor;
-	mlx_image_t	*render;
+	mlx_texture_t	*north;
+	mlx_texture_t	*south;
+	mlx_texture_t	*west;
+	mlx_texture_t	*east;
+	mlx_image_t		*background;
+	mlx_image_t		*minimap;
+	mlx_image_t		*corsor;
+	mlx_image_t		*render;
 }	t_textures;
 
 typedef struct s_game{
@@ -140,12 +140,17 @@ enum e_direction
 # define SPEED 0.05
 # define ROTATION_SPEED 3
 # define SENSITIVITY 0.05
-
+# define EAST_TEX "./texture/east.png"
+# define NORTH_TEX "./texture/north.png"
+# define SOUTH_TEX "./texture/south.png"
+# define WEST_TEX "./texture/west.png"
 //game core aspext
 void	key_loop(mlx_key_data_t keydata, void *ptr);
 void	game_loop(void *ptr);
 void	init_game(t_game *game);
 void	free_game(t_game *game);
+void	load_texture(t_game *game);
+
 
 //minimap
 void	draw_minimap(t_game	*game);

@@ -41,6 +41,19 @@ void	init_gun(t_game *game)
 	gun.texture = mlx_texture_to_image(game->mlx, gun.tex);
 }
 
+void	load_texture(t_game *game)
+{
+	game->texture.east = mlx_load_png(EAST_TEX);
+	game->texture.west = mlx_load_png(WEST_TEX);
+	game->texture.north = mlx_load_png(NORTH_TEX);
+	game->texture.south = mlx_load_png(SOUTH_TEX);
+	if (!game->texture.east || !game->texture.west || !game->texture.north || !game->texture.south)
+	{
+		free_game(game);
+		exit (0);
+	}
+}
+
 void	init_game(t_game *game)
 {
 	static int	sky_color = (0 << 24 | 255 << 16 | 255 << 8 | 255);
@@ -55,8 +68,9 @@ void	init_game(t_game *game)
 	game->player.dx = -1;
 	game->player.dy = 0;
 	game->plane_x = 0;
-	game->plane_y = 0.66;
+	game->plane_y = 0.80;
 	game->player.cam = 0;
+	rotate_player_vector(game, angle_to_rad(180));
 	game->player.rotation = 0;
 	game->player.direction = 0;
 	game->texture.background = mlx_new_image(game->mlx, WIDTH, HEIGHT);

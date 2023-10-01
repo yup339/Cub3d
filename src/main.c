@@ -3,6 +3,7 @@
 
 void	free_game(t_game *game)
 {
+	//free_double_array((void **)game->map);
 	mlx_terminate(game->mlx);
 	exit(EXIT_SUCCESS);
 }
@@ -41,6 +42,7 @@ void	cursor_hook_function(double x, double y, void *ptr)
 	(void)y;
 	game->player.cam = fmod((game->player.cam
 				+ ((x - previous_x) * SENSITIVITY) + 360), 360);
+	rotate_player_vector(game, -angle_to_rad((x - previous_x) * SENSITIVITY));
 	previous_x = x;
 }
 
@@ -82,5 +84,6 @@ int	main(int argc, char **argv)
 	(void)argv;
 	init_map(&game);
 	init_game(&game);
+	load_texture(&game);
 	run_game(&game);
 }
