@@ -29,17 +29,6 @@ static void	create_background(t_game *game, int sky_color, int ground_color)
 	}
 }
 
-void	init_gun(t_game *game)
-{
-	static t_gun gun;
-
-	gun.fire = pistol_fire;
-	gun.fire_rate = 10;
-	pthread_mutex_init(&gun.m, NULL);
-	game->player.gun = &gun;
-	gun.tex = mlx_load_png("./texture/gun.png");
-	gun.texture = mlx_texture_to_image(game->mlx, gun.tex);
-}
 
 void	load_texture(t_game *game)
 {
@@ -47,8 +36,11 @@ void	load_texture(t_game *game)
 	game->texture.west = mlx_load_png(WEST_TEX);
 	game->texture.north = mlx_load_png(NORTH_TEX);
 	game->texture.south = mlx_load_png(SOUTH_TEX);
-	if (!game->texture.east || !game->texture.west || !game->texture.north || !game->texture.south)
+	return ;
+	if (!game->texture.east || !game->texture.west
+		|| !game->texture.north || !game->texture.south)
 	{
+		write_error("invalid texture");
 		free_game(game);
 		exit (0);
 	}
@@ -68,7 +60,7 @@ void	init_game(t_game *game)
 	game->player.dx = -1;
 	game->player.dy = 0;
 	game->plane_x = 0;
-	game->plane_y = 0.80;
+	game->plane_y = 1;
 	game->player.cam = 0;
 	rotate_player_vector(game, angle_to_rad(180));
 	game->player.rotation = 0;

@@ -8,7 +8,7 @@ DEFAULT_GOAL: all
 
 # Compiler and flags
 CC		=	gcc
-CFLAGS	=	-Wall -Werror -Wextra -I./include
+CFLAGS	=	-Wall -Werror -Wextra -I./include 
 RM		=	rm -f
 MAKE	=	make
 
@@ -18,13 +18,12 @@ NAME	=	cub3d
 # Sources are all .c files
 SRCS =	main.c\
 		init.c \
-		print_game.c\
 		move.c \
 		loop.c \
 		raycasting.c \
+		raycasting2.c \
 		utils.c \
 		collision.c \
-		gun.c \
 
 SRCS_DIR	=	src
 
@@ -43,7 +42,7 @@ GREEN	=	\033[38;5;46m
 LIME	=	\033[0;92m
 RESET	=	\033[0m
 
-
+MAP	=	./map/map1.cub	
 $(shell mkdir -p $(OBJS_DIR))
 #------------------------------------------------------------------------------#
 #                                 TARGETS                                      #
@@ -76,10 +75,10 @@ fclean: clean
 re: fclean all
 
 run: $(NAME)
-	./$(NAME)
+	./$(NAME) $(MAP)
 
 rerun: re
-	./$(NAME)
+	./$(NAME) $(MAP)
 mlx:
 	git clone $(MLX_GIT)
 	cd MLX42 && cmake -B build

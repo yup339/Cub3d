@@ -2,25 +2,45 @@
 #ifndef CUB_H
 # define CUB_H
 
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/include/libft.h"
-# include <pthread.h>
-
-typedef struct s_enemie{
-	double			x;
-	double			y;
-	int				hp;
-	pthread_mutex_t	m;
-	pthread_t		t;
-}	t_enemie;
 
 typedef struct s_mini_vec{
 	double	dx;
 	double	dy;
 }	t_mini_vec;
+
+typedef struct s_line{
+	int		line_height;
+	int		start;
+	int		end;
+	uint8_t	*color;
+	int		pixel;
+	double	step;
+	double	wallx;
+	int		tex_x;
+	int		tex_y;
+	double	tex_pos;
+	int		i;
+}	t_line;
+
+typedef struct s_wall{
+	int				line_height;
+	int				start;
+	int				end;
+	uint8_t			*color;
+	int				pixel;
+	double			step;
+	double			wallx;
+	int				tex_x;
+	int				tex_y;
+	double			tex_pos;
+	int				i;
+}	t_wall;
 
 typedef struct s_vector{
 	double	length;
@@ -40,34 +60,6 @@ typedef struct s_vector{
 	int		step_y;
 }	t_vector;
 
-typedef struct s_gun
-{
-	pthread_t		t;
-	int				(*fire)(void *);
-	void			(*draw)(void *);
-	int				fire_rate;
-	int				damage;
-	u_int32_t		ammo;
-	bool			is_firing;
-	pthread_mutex_t	m;
-	mlx_texture_t	*tex;
-	mlx_image_t		*texture;
-}	t_gun;
-
-typedef struct s_collision_math{
-	double	x1;
-	double	x2;
-	double	x3;
-	double	x4;
-	double	y1;
-	double	y2;
-	double	y3;
-	double	y4;
-	double	den;
-	double	t;
-	double	u;
-}	t_collision_math;
-
 typedef struct s_player{
 	double	x;
 	double	y;
@@ -76,7 +68,6 @@ typedef struct s_player{
 	int		direction;
 	double	dx;
 	double	dy;
-	t_gun	*gun;
 }	t_player;
 
 typedef struct s_textures{
@@ -100,27 +91,29 @@ typedef struct s_game{
 	int			minimap_elsize_y;
 	double		plane_x;
 	double		plane_y;
+	char		*no_path;
+	char		*so_path;
+	char		*ea_path;
+	char		*we_path;
+	int			floor_color;
+	int			sky_color;
+	bool		cursor;
 	mlx_t		*mlx;
 }	t_game;
 
-enum e_map_color
-{
-	CLEAR = 0 ,
-	WALL = (126 << 24 | 126 << 16 | 126 << 8 | 255),
-	FLOOR = (168 << 24 | 254 << 16 | 171 << 8 | 255),
-	PLAYER = (255 << 24 | 0 << 16 | 0 << 8 | 255),
-	MAP_FOV_COLOR = (255 << 24 | 252 << 16 | 100 << 8 | 255)
-};
 # define MINIMAP_HEIGHT 180
 # define MINIMAP_WIDTH 300
 # define NBR_MINIRAY 80
 
 enum e_side
 {
+	NONE,
 	NORTH,
 	SOUTH,
 	EAST,
-	WEST
+	WEST,
+	FLOOR,
+	CEILING
 };
 
 enum e_direction
@@ -132,8 +125,8 @@ enum e_direction
 	LEFT = 1 << 4,
 };
 
-# define RAY_SPEED 0.1
-# define WALL_HEIGHT 250
+# define RAY_SPEED 0.25
+# define WALL_HEIGHT 0.666
 # define HEIGHT 1000
 # define WIDTH 1000
 # define FOV 90
@@ -145,36 +138,42 @@ enum e_direction
 # define SOUTH_TEX "./texture/south.png"
 # define WEST_TEX "./texture/west.png"
 //game core aspext
-void	key_loop(mlx_key_data_t keydata, void *ptr);
-void	game_loop(void *ptr);
-void	init_game(t_game *game);
-void	free_game(t_game *game);
-void	load_texture(t_game *game);
+void		key_loop(mlx_key_data_t keydata, void *ptr);
+void		game_loop(void *ptr);
+void		init_game(t_game *game);
+void		free_game(t_game *game);
+void		load_texture(t_game *game);
 
 
 //minimap
-void	draw_minimap(t_game	*game);
-void	draw_x_vector(t_game *game, t_vector vector, int x, int y);
-void	draw_y_vector(t_game *game, t_vector vector, int x, int y);
+void		draw_minimap(t_game	*game);
+void		draw_x_vector(t_game *game, t_vector vector, int x, int y);
+void		draw_y_vector(t_game *game, t_vector vector, int x, int y);
 
 //player movement
-void	change_rotation(t_game *game);
-void	move_player(t_game *game);
-bool	vector_collision(t_game *game, t_vector *vector, double x, double y);
-bool	vector_hits_wall(double x, double y, double map_x, double map_y);
-void	rotate_player_vector(t_game *game, double angle);
+void		change_rotation(t_game *game);
+void		move_player(t_game *game);
+bool		vector_hits_wall(double x, double y, double map_x, double map_y);
+void		rotate_player_vector(t_game *game, double angle);
 
 //utility function
-double	angle_to_rad(double angle);
+double		angle_to_rad(double angle);
+int			rgba(int r, int g, int b, int a);
+bool		check_extension(char *path);
+void 		safe_free(char *str);
 
 //raycasting
-void	raycast(t_game *game);
+void		raycast(t_game *game);
+void		draw_wall(t_game *game, t_vector *v, int x, mlx_texture_t *tex);
+void		render_ray(t_game *game, t_vector *v, int x);
+void		raycast(t_game *game);
+t_vector	create_ray(t_game *game, int i);
+void		dda(t_game *game, t_vector *v);
+void		calc_wall_height(t_wall	*w, t_vector *vector, mlx_texture_t *tex);
 
-
-//gun
-int		pistol_fire(void *ptr);
-void	pistol_draw(void *ptr);
-void	draw_cursor(t_game *game);
+//parsing
+void		load_map(t_game *game, char *path);
+void		perror_exit(char *msg);
 
 
 #endif

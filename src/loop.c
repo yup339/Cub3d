@@ -12,13 +12,14 @@ void	game_loop(void *ptr)
 	ft_memset(game->texture.render->pixels, 0,
 		(HEIGHT) * (WIDTH) * sizeof(int32_t));
 	raycast(game);
-	//draw_minimap(game);
 	change_rotation(game);
 	move_player(game);
 }
 
 void	key_loop2(mlx_key_data_t keydata, t_game *game)
 {
+	if (keydata.key == MLX_KEY_ESCAPE)
+		free_game(game);
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
 		game->player.direction |= FORWARD;
 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
@@ -39,11 +40,9 @@ void	key_loop2(mlx_key_data_t keydata, t_game *game)
 
 void	key_loop(mlx_key_data_t keydata, void *ptr)
 {
-	t_game	*game;
+	t_game		*game;
 
 	game = (t_game *)ptr;
-	if (keydata.key == MLX_KEY_ESCAPE)
-		free_game(game);
 	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
 		game->player.rotation |= LEFT;
 	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
@@ -52,5 +51,17 @@ void	key_loop(mlx_key_data_t keydata, void *ptr)
 		game->player.rotation &= ~LEFT;
 	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
 		game->player.rotation &= ~RIGHT;
+	if (keydata.key == MLX_KEY_TAB && keydata.action == MLX_PRESS
+		&& game->cursor == false)
+	{
+		mlx_set_cursor_mode(game->mlx, MLX_MOUSE_NORMAL);
+		game->cursor = true;
+	}
+	else if (keydata.key == MLX_KEY_TAB && keydata.action == MLX_PRESS
+		&& game->cursor == true)
+	{
+		mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
+		game->cursor = false;
+	}
 	key_loop2(keydata, game);
 }
