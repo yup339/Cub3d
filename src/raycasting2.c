@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting2.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/12 17:35:50 by pbergero          #+#    #+#             */
+/*   Updated: 2023/10/14 23:04:05 by pbergero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 void	draw_wall(t_game *game, t_vector *vector, int x, mlx_texture_t *tex)
@@ -16,19 +28,24 @@ void	draw_wall(t_game *game, t_vector *vector, int x, mlx_texture_t *tex)
 	}
 }
 
+mlx_texture_t	*texture_picker(t_vector *vector, t_game *game)
+{
+	if (vector->side == NORTH)
+		return (game->texture.north);
+	else if (vector->side == SOUTH)
+		return (game->texture.south);
+	else if (vector->side == WEST)
+		return (game->texture.west);
+	else
+		return (game->texture.east);
+}
+
 void	render_ray(t_game *game, t_vector *vector, int x)
 {
 	mlx_texture_t	*tex;
 
 	dda(game, vector);
-	if (vector->side == NORTH)
-		tex = game->texture.north;
-	else if (vector->side == SOUTH)
-		tex = game->texture.south;
-	else if (vector->side == WEST)
-		tex = game->texture.west;
-	else
-		tex = game->texture.east;
+	tex = texture_picker(vector, game);
 	draw_wall(game, vector, x, tex);
 }
 

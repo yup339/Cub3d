@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:27:05 by pbergero          #+#    #+#             */
-/*   Updated: 2023/02/28 23:18:49 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:00:54 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ char	*get_next_line(int fd);
 void	free_double_array(void	**ptr);
 int		square_power(int n);
 int		insert_bit(int nb, int bit);
-void	write_error(char *cust_mess);
-int		is_str_int(char *str);
+int		write_error(char *cust_mess);
+int		is_str_int(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

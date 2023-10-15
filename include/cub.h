@@ -76,27 +76,29 @@ typedef struct s_textures{
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
 	mlx_image_t		*background;
-	mlx_image_t		*minimap;
-	mlx_image_t		*corsor;
 	mlx_image_t		*render;
 }	t_textures;
+
+typedef struct s_load_info{
+	char		*no_path;
+	char		*so_path;
+	char		*ea_path;
+	char		*we_path;
+	char		*floor_str;
+	char		*sky_str;
+	uint32_t	f_c;
+	int			s_c;
+}	t_load_info;
 
 typedef struct s_game{
 	t_player	player;
 	t_textures	texture;
 	char		**map;
-	int			width;
-	int			height;
 	int			minimap_elsize_x;
 	int			minimap_elsize_y;
+	t_load_info	load_info;
 	double		plane_x;
 	double		plane_y;
-	char		*no_path;
-	char		*so_path;
-	char		*ea_path;
-	char		*we_path;
-	int			floor_color;
-	int			sky_color;
 	bool		cursor;
 	mlx_t		*mlx;
 }	t_game;
@@ -134,14 +136,15 @@ enum e_direction
 # define ROTATION_SPEED 3
 # define SENSITIVITY 0.05
 # define EAST_TEX "./texture/east.png"
-# define NORTH_TEX "./texture/north.png"
+# define NORTH_TEX "./texture/lava2.png"
+# define NORTH_TEX2 "./texture/lava2.png"
 # define SOUTH_TEX "./texture/south.png"
 # define WEST_TEX "./texture/west.png"
 //game core aspext
 void		key_loop(mlx_key_data_t keydata, void *ptr);
 void		game_loop(void *ptr);
 void		init_game(t_game *game);
-void		free_game(t_game *game);
+void		free_game(t_game *game, bool exiting);
 void		load_texture(t_game *game);
 
 
@@ -158,9 +161,8 @@ void		rotate_player_vector(t_game *game, double angle);
 
 //utility function
 double		angle_to_rad(double angle);
-int			rgba(int r, int g, int b, int a);
-bool		check_extension(char *path);
-void 		safe_free(char *str);
+int			rgba(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a);
+void		safe_free(char *str);
 
 //raycasting
 void		raycast(t_game *game);

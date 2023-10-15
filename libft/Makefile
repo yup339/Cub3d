@@ -6,7 +6,7 @@
 #    By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/28 19:54:24 by pbergero          #+#    #+#              #
-#    Updated: 2023/02/28 23:18:38 by pbergero         ###   ########.fr        #
+#    Updated: 2023/10/04 15:00:02 by pbergero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,13 +51,6 @@ SRCS    =   ft_calloc.c ft_isalnum.c \
 			get_next_line_utils.c\
 			free_double_array.c\
 			square_power.c\
-			create_add_back.c\
-			create_add_front.c\
-			free_list.c\
-			get_x_elem.c\
-			get_list_size.c\
-			swap_elem_position.c\
-			print_list_content.c\
 			write_error.c\
 			str_is_int.c\
 			ft_strcmp.c

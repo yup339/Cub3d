@@ -23,7 +23,7 @@ SRCS =	main.c\
 		raycasting.c \
 		raycasting2.c \
 		utils.c \
-		collision.c \
+		parsing.c
 
 SRCS_DIR	=	src
 
@@ -42,7 +42,7 @@ GREEN	=	\033[38;5;46m
 LIME	=	\033[0;92m
 RESET	=	\033[0m
 
-MAP	=	./map/map1.cub	
+MAP	=	./map/map2.cub	
 $(shell mkdir -p $(OBJS_DIR))
 #------------------------------------------------------------------------------#
 #                                 TARGETS                                      #
@@ -77,8 +77,9 @@ re: fclean all
 run: $(NAME)
 	./$(NAME) $(MAP)
 
-rerun: re
-	./$(NAME) $(MAP)
+leaks: $(NAME)
+	leaks -atExit -- ./$(NAME) $(MAP)
+	
 mlx:
 	git clone $(MLX_GIT)
 	cd MLX42 && cmake -B build

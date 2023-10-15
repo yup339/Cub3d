@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/12 17:35:18 by pbergero          #+#    #+#             */
+/*   Updated: 2023/10/14 22:07:57 by pbergero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 /// @brief create the ray use for redering base on the fov ,
@@ -45,7 +57,6 @@ t_vector	create_ray(t_game *game, int i)
 	return (v);
 }
 
-
 void	dda(t_game *game, t_vector *v)
 {
 	while (true)
@@ -75,7 +86,7 @@ void	dda(t_game *game, t_vector *v)
 		v->length = (v->side_dist_x - v->delta_dist_x);
 }
 
-int	rgba(int r, int g, int b, int a)
+int	rgba(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a)
 {
 	return ((r << 24) | (g << 16) | (b << 8) | a);
 }
@@ -98,7 +109,6 @@ void	calc_wall_height(t_wall	*w, t_vector *vector, mlx_texture_t *tex)
 	w->tex_x = (int)(w->wallx * (double)tex->width);
 	if (vector->side == EAST || vector->side == NORTH)
 		w->tex_x = tex->width - w->tex_x - 1;
-	w->step = 1.0 * tex->height / w->line_height;
 	w->tex_pos = (w->start - HEIGHT / 2 + w->line_height / 2) * w->step;
 	w->i = w->start;
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/12 17:35:43 by pbergero          #+#    #+#             */
+/*   Updated: 2023/10/14 18:59:53 by pbergero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 void	rotate_player_vector(t_game *game, double angle)
@@ -39,7 +51,6 @@ t_mini_vec	rotate_vector(double dx, double dy, double angles)
 	return (v);
 }
 
-
 void	translate_player(t_game *game, int angle)
 {
 	t_mini_vec	v;
@@ -55,8 +66,14 @@ void	translate_player(t_game *game, int angle)
 	{
 		game->player.x -= (v.dx * SPEED);
 	}
-
-
+	if (fmod(game->player.x, 1) == 0)
+	{
+		game->player.x += ((v.dx * SPEED) * 0.1);
+	}
+	if (fmod(game->player.y, 1) == 0)
+	{
+		game->player.y += ((v.dy * SPEED) * 0.1);
+	}
 }
 
 void	move_player(t_game *game)

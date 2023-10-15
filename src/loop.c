@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/12 17:35:36 by pbergero          #+#    #+#             */
+/*   Updated: 2023/10/14 20:01:45 by pbergero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 /// @brief main loop of the game 
@@ -7,8 +19,6 @@ void	game_loop(void *ptr)
 	t_game	*game;
 
 	game = (t_game *)ptr;
-	ft_memset(game->texture.minimap->pixels, 0,
-		(MINIMAP_HEIGHT) * (MINIMAP_WIDTH) * sizeof(int32_t));
 	ft_memset(game->texture.render->pixels, 0,
 		(HEIGHT) * (WIDTH) * sizeof(int32_t));
 	raycast(game);
@@ -19,7 +29,7 @@ void	game_loop(void *ptr)
 void	key_loop2(mlx_key_data_t keydata, t_game *game)
 {
 	if (keydata.key == MLX_KEY_ESCAPE)
-		free_game(game);
+		free_game(game, true);
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
 		game->player.direction |= FORWARD;
 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
