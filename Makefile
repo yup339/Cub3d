@@ -23,7 +23,10 @@ SRCS =	main.c\
 		raycasting.c \
 		raycasting2.c \
 		utils.c \
-		parsing.c
+		utils2.c \
+		parsing.c \
+		parsing2.c \
+		validate_map.c
 
 SRCS_DIR	=	src
 
@@ -42,7 +45,7 @@ GREEN	=	\033[38;5;46m
 LIME	=	\033[0;92m
 RESET	=	\033[0m
 
-MAP	=	./map/map2.cub	
+MAP	=	./map/map1.cub	
 $(shell mkdir -p $(OBJS_DIR))
 #------------------------------------------------------------------------------#
 #                                 TARGETS                                      #

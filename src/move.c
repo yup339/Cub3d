@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:43 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/14 18:59:53 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:58:20 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,6 @@ void	translate_player(t_game *game, int angle)
 		[(int)(game->player.y)] != '1')
 	{
 		game->player.x -= (v.dx * SPEED);
-	}
-	if (fmod(game->player.x, 1) == 0)
-	{
-		game->player.x += ((v.dx * SPEED) * 0.1);
-	}
-	if (fmod(game->player.y, 1) == 0)
-	{
-		game->player.y += ((v.dy * SPEED) * 0.1);
 	}
 }
 

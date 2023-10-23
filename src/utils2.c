@@ -1,61 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 17:35:53 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/23 15:11:10 by pbergero         ###   ########.fr       */
+/*   Created: 2023/10/23 16:21:54 by pbergero          #+#    #+#             */
+/*   Updated: 2023/10/23 16:23:55 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-double	angle_to_rad(double angle)
-{
-	return (angle * M_PI / 180);
-}
-
-void	perror_exit(char *str)
-{
-	perror(str);
-	exit(EXIT_FAILURE);
-}
-
-int	get_nb_of_player(char *str)
+char	*copy_nospace(char *str, char *original)
 {
 	int	i;
-	int	n;
-
-	n = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == 'N' || str[i] == 'W' || str[i] == 'S' || str[i] == 'E')
-			n++;
-		i++;
-	}
-	return (n);
-}
-
-void	close_game(void *game)
-{
-	free_game((t_game *)game, true, true);
-}
-
-int	count_char(char *str, char c)
-{
-	int	count;
-	int	i;
+	int	j;
 
 	i = 0;
-	count = 0;
-	while (str[i])
+	j = 0;
+	while (original[i])
 	{
-		if (str[i] == c)
-			count++;
+		if (original[i] != ' ')
+		{
+			str[j] = original[i];
+			j++;
+		}
 		i++;
 	}
-	return (count);
+	free(original);
+	return (str);
+}
+
+char	*remove_white_space(char *str, bool flag)
+{
+	int		i;
+	int		l;
+	char	*s;
+
+	if (flag)
+		return (str);
+	if (!str)
+		return (NULL);
+	i = 0;
+	l = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			l++;
+		i++;
+	}
+	l = i - l;
+	s = ft_calloc(l + 1, 1);
+	if (!s)
+	{
+		free (str);
+		return (NULL);
+	}
+	return (copy_nospace(s, str));
 }

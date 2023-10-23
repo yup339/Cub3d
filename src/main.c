@@ -6,13 +6,13 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:38 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/14 23:04:26 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:10:35 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	free_game(t_game *game, bool exiting)
+void	free_game(t_game *game, bool exiting, bool is_mlx_started)
 {
 	if (game->map)
 		free_double_array((void **)game->map);
@@ -28,18 +28,17 @@ void	free_game(t_game *game, bool exiting)
 		free(game->load_info.sky_str);
 	if (game->load_info.floor_str)
 		free(game->load_info.floor_str);
-	if (exiting)
-	{
+	if (is_mlx_started)
 		mlx_terminate(game->mlx);
+	if (exiting)
 		exit(EXIT_SUCCESS);
-	}
 }
 
 void	color_error(t_game *game, char **ptr, char *msg)
 {
 	write_error(msg);
 	free_double_array((void **)ptr);
-	free_game(game, true);
+	free_game(game, true, false);
 }
 
 u_int32_t	load_color(t_game *game, char *str)
@@ -52,13 +51,13 @@ u_int32_t	load_color(t_game *game, char *str)
 	if (!color_str)
 	{
 		perror ("malloc");
-		free_game(game, true);
+		free_game(game, true, false);
 	}
 	i = 0;
+	if (count_char(str, ',') != 2)
+		color_error(game, color_str, "background colors need 3 components");
 	while (color_str[i])
 	{
-		if (i >= 3)
-			color_error(game, color_str, "two many color arg");
 		if (!is_str_int(color_str[i]))
 			color_error(game, color_str, "color arg not right");
 		color[i] = ft_atoi(color_str[i]);
@@ -73,40 +72,15 @@ u_int32_t	load_color(t_game *game, char *str)
 void	init_map(t_game *game, char *path)
 {
 	load_map(game, path);
+	if (!game->load_info.floor_str || !game->load_info.sky_str
+		|| !game->load_info.we_path || !game->load_info.ea_path
+		|| !game->load_info.no_path || !game->load_info.so_path)
+	{
+		write_error("missing identifier before start of map");
+		free_game(game, true, false);
+	}
 	game->load_info.f_c = load_color(game, game->load_info.floor_str);
 	game->load_info.s_c = load_color(game, game->load_info.sky_str);
-}
-
-void	cursor_hook_function(double x, double y, void *ptr)
-{
-	t_game			*game;
-	static double	previous_x = 0;
-
-	game = (t_game *)ptr;
-	if (game->cursor == true)
-		return ;
-	(void)y;
-	rotate_player_vector(game, -angle_to_rad((x - previous_x) * SENSITIVITY));
-	previous_x = x;
-}
-
-void	run_game(t_game *game)
-{
-	mlx_loop_hook(game->mlx, game_loop, game);
-	mlx_cursor_hook(game->mlx, &cursor_hook_function, game);
-	mlx_key_hook(game->mlx, &key_loop, game);
-	mlx_loop(game->mlx);
-}
-
-void print_game(t_game *game)
-{
-	int i = 0;
-	while (game->map[i])
-	{
-		printf ("%s\n", game->map[i]);
-		i++;
-	}
-	printf ("player pos: x=%f,y=%f\n", game->player.x, game->player.y);
 }
 
 int	main(int argc, char **argv)
@@ -119,6 +93,6 @@ int	main(int argc, char **argv)
 	init_map(&game, argv[1]);
 	init_game(&game);
 	load_texture(&game);
-	//print_game(&game);
+	flood_fill(&game);
 	run_game(&game);
 }

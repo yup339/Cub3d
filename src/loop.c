@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:36 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/14 20:01:45 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:00:53 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	game_loop(void *ptr)
 void	key_loop2(mlx_key_data_t keydata, t_game *game)
 {
 	if (keydata.key == MLX_KEY_ESCAPE)
-		free_game(game, true);
+		free_game(game, true, true);
 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_PRESS)
 		game->player.direction |= FORWARD;
 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
@@ -74,4 +74,26 @@ void	key_loop(mlx_key_data_t keydata, void *ptr)
 		game->cursor = false;
 	}
 	key_loop2(keydata, game);
+}
+
+void	cursor_hook_function(double x, double y, void *ptr)
+{
+	t_game			*game;
+	static double	previous_x = 0;
+
+	game = (t_game *)ptr;
+	if (game->cursor == true)
+		return ;
+	(void)y;
+	rotate_player_vector(game, -angle_to_rad((x - previous_x) * SENSITIVITY));
+	previous_x = x;
+}
+
+void	run_game(t_game *game)
+{
+	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_cursor_hook(game->mlx, &cursor_hook_function, game);
+	mlx_key_hook(game->mlx, &key_loop, game);
+	mlx_close_hook(game->mlx, close_game, game);
+	mlx_loop(game->mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:31 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/14 23:07:19 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/18 20:10:22 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	load_texture(t_game *game)
 		|| !game->texture.north || !game->texture.south)
 	{
 		write_error("invalid texture");
-		free_game(game, true);
+		free_game(game, true, true);
 	}
 }
 
@@ -82,6 +82,7 @@ void	find_player(t_game *game)
 				|| game->map[y][x] == 'E' || game->map[y][x] == 'S')
 			{
 				set_player(game, y, x);
+				game->map[y][x] = '0';
 				break ;
 			}
 			x++;
@@ -113,4 +114,3 @@ void	init_game(t_game *game)
 	mlx_image_to_window(game->mlx, game->texture.render, 0, 0);
 	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
 }
-

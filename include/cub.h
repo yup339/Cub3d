@@ -135,23 +135,14 @@ enum e_direction
 # define SPEED 0.05
 # define ROTATION_SPEED 3
 # define SENSITIVITY 0.05
-# define EAST_TEX "./texture/east.png"
-# define NORTH_TEX "./texture/lava2.png"
-# define NORTH_TEX2 "./texture/lava2.png"
-# define SOUTH_TEX "./texture/south.png"
-# define WEST_TEX "./texture/west.png"
+
 //game core aspext
 void		key_loop(mlx_key_data_t keydata, void *ptr);
 void		game_loop(void *ptr);
 void		init_game(t_game *game);
-void		free_game(t_game *game, bool exiting);
+void		free_game(t_game *game, bool exiting, bool is_mlx_started);
 void		load_texture(t_game *game);
-
-
-//minimap
-void		draw_minimap(t_game	*game);
-void		draw_x_vector(t_game *game, t_vector vector, int x, int y);
-void		draw_y_vector(t_game *game, t_vector vector, int x, int y);
+void		run_game(t_game *game);
 
 //player movement
 void		change_rotation(t_game *game);
@@ -163,6 +154,7 @@ void		rotate_player_vector(t_game *game, double angle);
 double		angle_to_rad(double angle);
 int			rgba(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a);
 void		safe_free(char *str);
+void		close_game(void *game);
 
 //raycasting
 void		raycast(t_game *game);
@@ -176,6 +168,13 @@ void		calc_wall_height(t_wall	*w, t_vector *vector, mlx_texture_t *tex);
 //parsing
 void		load_map(t_game *game, char *path);
 void		perror_exit(char *msg);
-
+int			get_nb_of_player(char *str);
+void		flood_fill(t_game *game);
+void		load_map(t_game *game, char *path);
+bool		load_map_error(char *str, char *map, bool is_reading_map, char *m);
+bool		is_valid_info(t_game *game, char *str, char **map, bool *r);
+void		check_extension(char *path);
+int			count_char(char *str, char c);
+char		*remove_white_space(char *str, bool flag);
 
 #endif
