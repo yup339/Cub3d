@@ -1,0 +1,10 @@
+NA ./texture/north.png  
+SO ./texture/south.png
+WE ./texture/west.png
+EA ./texture/east.png
+
+F 250,100,0
+
+111
+1N1
+111
