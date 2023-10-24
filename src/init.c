@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:31 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/18 20:10:22 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:03:27 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	set_player(t_game *game, int y, int x)
 		rotate_player_vector(game, angle_to_rad(180));
 	if (game->map[y][x] == 'N')
 		rotate_player_vector(game, angle_to_rad(270));
-	printf ("done\n");
 }
 
 void	find_player(t_game *game)

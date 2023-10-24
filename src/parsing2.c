@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 13:51:41 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/23 16:23:14 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:39:01 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ bool	load_map_info(int fd, char *str, char **map, t_game *game)
 				return (load_map_error(str, *map, is_reading_map, "malloc"));
 		}
 		str = get_next_line(fd);
-		if (str && str[0] == '\n' && is_reading_map)
-			return (load_map_error(str, *map, is_reading_map, "empty line"));
 	}
 	return (true);
 }
@@ -76,17 +74,43 @@ char	*read_map_file(char *path, t_game *game)
 	return (map);
 }
 
+bool	is_char_ok(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '1' && str[i] != '0' && str[i] != ' ' && str[i] != '\n'
+			&& str[i] != 'N' && str[i] != 'W' && str[i] != 'E' && str[i] != 'S')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 void	load_map(t_game *game, char *path)
 {
 	char	*map;
 
 	check_extension(path);
 	map = read_map_file(path, game);
-	if (get_nb_of_player(map) != 1)
+	if (!map)
 	{
-		free(map);
-		write_error("wrong number of player");
-		exit(EXIT_FAILURE);
+		write_error("malloc failed");
+		free_game(game, true, false);
+	}
+	if (!game->load_info.floor_str || !game->load_info.sky_str
+		|| !game->load_info.we_path || !game->load_info.ea_path
+		|| !game->load_info.no_path || !game->load_info.so_path)
+	{
+		write_error("missing identifier before start of map");
+		free_game(game, true, false);
+	}
+	if (!is_char_ok(map))
+	{
+		write_error("wrong char in map");
+		free_game(game, true, false);
 	}
 	game->map = ft_split(map, '\n');
 	free(map);

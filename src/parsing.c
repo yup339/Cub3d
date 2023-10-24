@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:46 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/23 16:26:24 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:34:41 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ bool	add_texture(char *str, char **path, int skippable)
 		return (false);
 	}
 	ft_strlcpy(fix_path, str + skippable, ft_strlen(str) - skippable);
-	printf("%s\n", fix_path);
 	free (str);
 	*path = fix_path;
 	return (true);
@@ -93,5 +92,6 @@ bool	is_valid_info(t_game *game, char *str, char **map, bool *reading_map)
 		*reading_map = true;
 		return (true);
 	}
+	write_error("Invalid Identifier");
 	return (false);
 }

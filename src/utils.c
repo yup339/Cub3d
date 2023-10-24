@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:53 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/23 15:11:10 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:10:05 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,24 @@ void	perror_exit(char *str)
 	exit(EXIT_FAILURE);
 }
 
-int	get_nb_of_player(char *str)
+int	get_nb_of_player(char **str)
 {
 	int	i;
+	int	j;
 	int	n;
 
 	n = 0;
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == 'N' || str[i] == 'W' || str[i] == 'S' || str[i] == 'E')
-			n++;
+		j = 0;
+		while (str[i][j])
+		{
+			if (str[i][j] == 'N' || str[i][j] == 'W'
+				|| str[i][j] == 'S' || str[i][j] == 'E')
+				n++;
+			j++;
+		}
 		i++;
 	}
 	return (n);

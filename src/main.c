@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:38 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/23 15:10:35 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 12:39:08 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,14 @@ u_int32_t	load_color(t_game *game, char *str)
 void	init_map(t_game *game, char *path)
 {
 	load_map(game, path);
-	if (!game->load_info.floor_str || !game->load_info.sky_str
-		|| !game->load_info.we_path || !game->load_info.ea_path
-		|| !game->load_info.no_path || !game->load_info.so_path)
+	if (!game->map)
 	{
-		write_error("missing identifier before start of map");
+		write_error("malloc failed");
+		free_game(game, true, false);
+	}
+	if (get_nb_of_player(game->map) != 1)
+	{
+		write_error("wrong number of player");
 		free_game(game, true, false);
 	}
 	game->load_info.f_c = load_color(game, game->load_info.floor_str);

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/24 12:52:49 by pbergero          #+#    #+#             */
+/*   Updated: 2023/10/24 12:52:52 by pbergero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
@@ -131,7 +142,6 @@ enum e_direction
 # define WALL_HEIGHT 0.666
 # define HEIGHT 1000
 # define WIDTH 1000
-# define FOV 90
 # define SPEED 0.05
 # define ROTATION_SPEED 3
 # define SENSITIVITY 0.05
@@ -168,7 +178,7 @@ void		calc_wall_height(t_wall	*w, t_vector *vector, mlx_texture_t *tex);
 //parsing
 void		load_map(t_game *game, char *path);
 void		perror_exit(char *msg);
-int			get_nb_of_player(char *str);
+int			get_nb_of_player(char **str);
 void		flood_fill(t_game *game);
 void		load_map(t_game *game, char *path);
 bool		load_map_error(char *str, char *map, bool is_reading_map, char *m);

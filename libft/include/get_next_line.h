@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:50:30 by pbergero          #+#    #+#             */
-/*   Updated: 2023/01/15 13:32:01 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:49:18 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifndef  BUFFER_SIZE
+# ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
-# ifndef  JUST_SOME_RANDOM_NUMBER_BECAUSE_NO_DOWHILE
+# ifndef JUST_SOME_RANDOM_NUMBER_BECAUSE_NO_DOWHILE
 #  define JUST_SOME_RANDOM_NUMBER_BECAUSE_NO_DOWHILE 69420
 # endif
 
