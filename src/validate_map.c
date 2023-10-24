@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:03:12 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 12:28:59 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:59:48 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	flood(char **map, int y, int x)
 
 void	flood_fill(t_game *game)
 {
-	if (!flood(game->map, game->player.y, game->player.x))
+	if (!flood(game->map, (int)game->player.x, (int)game->player.y))
 	{
 		write_error("map not enclosed");
 		free_game(game, true, false);

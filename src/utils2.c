@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:21:54 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/23 16:23:55 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:42:33 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,15 @@ char	*copy_nospace(char *str, char *original)
 		}
 		i++;
 	}
-	free(original);
 	return (str);
 }
 
-char	*remove_white_space(char *str, bool flag)
+char	*remove_white_space(char *str)
 {
 	int		i;
 	int		l;
 	char	*s;
 
-	if (flag)
-		return (str);
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -54,7 +51,6 @@ char	*remove_white_space(char *str, bool flag)
 	s = ft_calloc(l + 1, 1);
 	if (!s)
 	{
-		free (str);
 		return (NULL);
 	}
 	return (copy_nospace(s, str));

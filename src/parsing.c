@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:46 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 12:34:41 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:55:38 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	add_texture(char *str, char **path, int skippable)
 	return (true);
 }
 
-bool	is_valid_info(t_game *game, char *str, char **map, bool *reading_map)
+bool	is_valid_info(t_game *game, char *str, char **map, char *str2)
 {
 	if (!ft_strncmp("NO", str, 2))
 		return (add_texture(str, &game->load_info.no_path, 2));
@@ -88,8 +88,8 @@ bool	is_valid_info(t_game *game, char *str, char **map, bool *reading_map)
 		return (add_texture(str, &game->load_info.sky_str, 1));
 	else if (is_start_map(str))
 	{
-		*map = str;
-		*reading_map = true;
+		free(str);
+		*map = str2;
 		return (true);
 	}
 	write_error("Invalid Identifier");

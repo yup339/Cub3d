@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 12:52:49 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 12:52:52 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:54:37 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,9 +182,9 @@ int			get_nb_of_player(char **str);
 void		flood_fill(t_game *game);
 void		load_map(t_game *game, char *path);
 bool		load_map_error(char *str, char *map, bool is_reading_map, char *m);
-bool		is_valid_info(t_game *game, char *str, char **map, bool *r);
+bool		is_valid_info(t_game *game, char *str, char **map, char *str2);
 void		check_extension(char *path);
 int			count_char(char *str, char c);
-char		*remove_white_space(char *str, bool flag);
+char		*remove_white_space(char *str);
 
 #endif

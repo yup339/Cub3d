@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 13:51:41 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 12:39:01 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:55:26 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,30 @@
 
 bool	read_line_info(t_game *game, char *str, char **map, bool *reading_map)
 {
-	if (*str == '\n')
+	char	*str2;
+
+	str2 = remove_white_space(str);
+	if (!str2)
 	{
 		free(str);
 		return (true);
 	}
-	if (!is_valid_info(game, str, map, reading_map))
+	if (*str2 == '\n')
 	{
+		free(str);
+		free(str2);
+		return (true);
+	}
+	if (!is_valid_info(game, str2, map, str))
+	{
+		free(str2);
 		free(str);
 		return (false);
 	}
+	if (!*map)
+		free(str);
+	else
+		*reading_map = true;
 	return (true);
 }
 
@@ -34,7 +48,6 @@ bool	load_map_info(int fd, char *str, char **map, t_game *game)
 	is_reading_map = false;
 	while (str)
 	{
-		str = remove_white_space(str, is_reading_map);
 		if (!str)
 			return (false);
 		if (!is_reading_map)
@@ -59,6 +72,7 @@ char	*read_map_file(char *path, t_game *game)
 	char	*str;
 	char	*map;
 
+	map = NULL;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		perror_exit(path);
