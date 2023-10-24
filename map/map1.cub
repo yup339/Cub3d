@@ -4,8 +4,8 @@ WE                      ./texture/west.png
 EA                                         ./texture/east.png
                           
      
-F             14    ,    144    ,     255
-C            1      51,1           57,1            
+F 1,2,50
+C           1      51,1           57,1            
        
 
 

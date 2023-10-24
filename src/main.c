@@ -6,12 +6,14 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:38 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 12:39:08 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:36:35 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+/*free the whole game
+	using flag for if we wanna exit and if we have the window started*/
 void	free_game(t_game *game, bool exiting, bool is_mlx_started)
 {
 	if (game->map)
@@ -34,6 +36,7 @@ void	free_game(t_game *game, bool exiting, bool is_mlx_started)
 		exit(EXIT_SUCCESS);
 }
 
+/*error for when we have an error in the color*/
 void	color_error(t_game *game, char **ptr, char *msg)
 {
 	write_error(msg);
@@ -41,6 +44,9 @@ void	color_error(t_game *game, char **ptr, char *msg)
 	free_game(game, true, false);
 }
 
+/*we check we have 2 , so we only have value for the color
+then we split on the , to get the rgb value
+then check if they are int between 0 and 255*/
 u_int32_t	load_color(t_game *game, char *str)
 {
 	int			i;
@@ -54,7 +60,7 @@ u_int32_t	load_color(t_game *game, char *str)
 		free_game(game, true, false);
 	}
 	i = 0;
-	if (count_char(str, ',') != 2)
+	if (count_char(str, ',') != 2 || color_str[2] == NULL)
 		color_error(game, color_str, "background colors need 3 components");
 	while (color_str[i])
 	{
@@ -69,6 +75,7 @@ u_int32_t	load_color(t_game *game, char *str)
 	return (rgba(color[0], color[1], color[2], 255));
 }
 
+/*start the map and load the info*/
 void	init_map(t_game *game, char *path)
 {
 	load_map(game, path);

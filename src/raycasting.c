@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:18 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/14 22:07:57 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:44:38 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	dda(t_game *game, t_vector *v)
 		v->length = (v->side_dist_x - v->delta_dist_x);
 }
 
+/// @param r,g,b,a the component of rgba colors
+/// @brief apply bitshift to get the right color
 int	rgba(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a)
 {
 	return ((r << 24) | (g << 16) | (b << 8) | a);

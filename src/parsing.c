@@ -6,12 +6,14 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:46 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 13:55:38 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:10:55 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+
+/* checker to see if its a .cub extension*/
 void	check_extension(char *path)
 {
 	int	len;
@@ -25,6 +27,7 @@ void	check_extension(char *path)
 	}
 }
 
+/* error handler when we are loading the map*/
 bool	load_map_error(char *str, char *map, bool is_reading_map, char *msg)
 {
 	write_error(msg);
@@ -35,6 +38,9 @@ bool	load_map_error(char *str, char *map, bool is_reading_map, char *msg)
 	return (false);
 }
 
+/* checks if we are starting now starting the map we still checks for the player
+	just so we get the right error messages even thought there shouldn't
+	be a player on the first line*/
 bool	is_start_map(char *str)
 {
 	int	i;
@@ -42,7 +48,9 @@ bool	is_start_map(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 	{
-		if (!(str[i] == ' ' || str[i] == '1' || str[i] == '0'))
+		if (!(str[i] == ' ' || str[i] == '1' || str[i] == '0'
+				|| str[i] != 'N' || str[i] != 'W'
+				|| str[i] != 'E' || str[i] != 'S'))
 		{
 			return (false);
 		}
@@ -51,6 +59,8 @@ bool	is_start_map(char *str)
 	return (true);
 }
 
+/* function to add the path into the main struct to load a texture or a color
+use the skippables to skip the ID ex: NO or C*/
 bool	add_texture(char *str, char **path, int skippable)
 {
 	char	*fix_path;
@@ -72,6 +82,9 @@ bool	add_texture(char *str, char **path, int skippable)
 	return (true);
 }
 
+
+/* checks if an identifier is a valid one or not if its not it then checks
+	if its the start of the map if it is it starts the map with the line*/
 bool	is_valid_info(t_game *game, char *str, char **map, char *str2)
 {
 	if (!ft_strncmp("NO", str, 2))

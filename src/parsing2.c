@@ -6,12 +6,15 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 13:51:41 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 13:55:26 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:17:18 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+/*skip spaces for the information need to keep
+the original one for when its the start of the map
+we skip just empty line and if its not we check if its valid*/
 bool	read_line_info(t_game *game, char *str, char **map, bool *reading_map)
 {
 	char	*str2;
@@ -41,6 +44,9 @@ bool	read_line_info(t_game *game, char *str, char **map, bool *reading_map)
 	return (true);
 }
 
+/* main loop that reads the file
+	we start by reading info then
+	when the map is found we join them to split on the \n after*/
 bool	load_map_info(int fd, char *str, char **map, t_game *game)
 {
 	bool	is_reading_map;
@@ -66,6 +72,9 @@ bool	load_map_info(int fd, char *str, char **map, t_game *game)
 	return (true);
 }
 
+/*
+	start of the reading of the file if any error occurs we exit the game
+*/
 char	*read_map_file(char *path, t_game *game)
 {
 	int		fd;
@@ -78,7 +87,10 @@ char	*read_map_file(char *path, t_game *game)
 		perror_exit(path);
 	str = get_next_line(fd);
 	if (!str)
+	{
+		close(fd);
 		perror_exit(path);
+	}
 	if (!load_map_info(fd, str, &map, game))
 	{
 		close(fd);
@@ -88,6 +100,10 @@ char	*read_map_file(char *path, t_game *game)
 	return (map);
 }
 
+
+/*
+	just a function to check if its only valid char in the map
+*/
 bool	is_char_ok(char *str)
 {
 	int	i;
@@ -103,6 +119,11 @@ bool	is_char_ok(char *str)
 	return (true);
 }
 
+
+/*start of the loading of the map we start by reading it
+	then check that we have all the identifier in the map
+	then we check the map has the right char in it
+	and finaly we finalize the map by splitting on the \n*/
 void	load_map(t_game *game, char *path)
 {
 	char	*map;

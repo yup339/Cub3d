@@ -6,12 +6,13 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:31 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 12:03:27 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:26:14 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+/* create the background image by making it half sky/half floor colors */
 static void	create_background(t_game *g)
 {
 	int	x;
@@ -40,6 +41,7 @@ static void	create_background(t_game *g)
 	}
 }
 
+/* load texture exit cleanly if there is a problem loading the texture*/
 void	load_texture(t_game *game)
 {
 	game->texture.east = mlx_load_png(game->load_info.ea_path);
@@ -54,6 +56,8 @@ void	load_texture(t_game *game)
 	}
 }
 
+/*we start the player in the middle of its coord
+then we rotate the player depending of its starting angle*/
 void	set_player(t_game *game, int y, int x)
 {
 	game->player.y = x + 0.5;
@@ -66,6 +70,7 @@ void	set_player(t_game *game, int y, int x)
 		rotate_player_vector(game, angle_to_rad(270));
 }
 
+/*find the player position*/
 void	find_player(t_game *game)
 {
 	int	x;
@@ -90,6 +95,7 @@ void	find_player(t_game *game)
 	}
 }
 
+/*init the variable for raycasting and init the images use in the window*/
 void	init_game(t_game *game)
 {
 	game->mlx = mlx_init(WIDTH, HEIGHT, "CUBE 3D", true);

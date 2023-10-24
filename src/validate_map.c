@@ -6,12 +6,17 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:03:12 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/24 13:59:48 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:19:44 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
+/*function to make sure that  a current coord is a valid one
+we start by making sure its an allocated memory spot so we dont segfault
+if its not return false
+then we check its a valid char "0, 1 , 2" if its not we know its invalid
+so we return false*/
 bool	is_pos_valid(char **map, int y, int x)
 {
 	int	height;
@@ -30,6 +35,8 @@ bool	is_pos_valid(char **map, int y, int x)
 	return (false);
 }
 
+/*we use a floodfill by going 1 up 1 down 1 righ 1 left of the current postion
+	to fill the map with 2 to make sure its a playable map*/
 bool	flood(char **map, int y, int x)
 {
 	static bool	is_valid = true;

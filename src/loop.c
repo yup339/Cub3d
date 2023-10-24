@@ -6,7 +6,7 @@
 /*   By: pbergero <pascaloubergeron@hotmail.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:35:36 by pbergero          #+#    #+#             */
-/*   Updated: 2023/10/23 14:00:53 by pbergero         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:43:09 by pbergero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	game_loop(void *ptr)
 	move_player(game);
 }
 
+/// @brief main loop of the game 
+/// @param keydata the key and action associated
+/// @param game the main stuct of our game
+/// @brief use bitshif to store the movement of our player
+///putting a bit at 1 if we press and 0 if we release
+/// and leaving the game if esc is pressed
 void	key_loop2(mlx_key_data_t keydata, t_game *game)
 {
 	if (keydata.key == MLX_KEY_ESCAPE)
@@ -48,6 +54,12 @@ void	key_loop2(mlx_key_data_t keydata, t_game *game)
 		game->player.direction &= ~RIGHT;
 }
 
+/// @brief main loop of the game 
+/// @param keydata the key and action associated
+/// @param ptr the main stuct of our game cast as a void ptr
+/// @brief use bitshif to store the movement of our player
+///putting a bit at 1 if we press and 0 if we release
+///pressing tab activate/deactivate the cursor
 void	key_loop(mlx_key_data_t keydata, void *ptr)
 {
 	t_game		*game;
@@ -76,6 +88,12 @@ void	key_loop(mlx_key_data_t keydata, void *ptr)
 	key_loop2(keydata, game);
 }
 
+/// @brief main loop of the game 
+/// @param x,y the postion of the cursor
+/// @param ptr the main stuct of our game cast as a void ptr
+/// @brief we use the diff between the previous x pos of the mouse and the new
+/// to apply a rotation to the player the previous x is static to get it the
+///next time its called
 void	cursor_hook_function(double x, double y, void *ptr)
 {
 	t_game			*game;
@@ -89,6 +107,9 @@ void	cursor_hook_function(double x, double y, void *ptr)
 	previous_x = x;
 }
 
+/// @brief main loop of the game 
+/// @param game the main stuct of our game
+/// @brief apply the different hook needed for our game
 void	run_game(t_game *game)
 {
 	mlx_loop_hook(game->mlx, game_loop, game);
